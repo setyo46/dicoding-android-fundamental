@@ -21,10 +21,12 @@ class HomeFragment : Fragment() {
 
         val tvLabel: TextView = view.findViewById(R.id.selection_label)
         val index = arguments?.getInt(ARG_SECTION_NUMBER, 0)
+        val name = arguments?.getString(ARG_NAME)
 
         tvLabel.text = getString(R.string.content_tab_text, index)
     }
     companion object {
         const val ARG_SECTION_NUMBER = "section_number"
+        const val ARG_NAME = "app_name"
     }
 }

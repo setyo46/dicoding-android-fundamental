@@ -12,7 +12,9 @@ class MainActivity : AppCompatActivity() {
         private val TAB_TITLES: IntArray
             get() = intArrayOf(
                 R.string.tab_text_1,
-                R.string.tab_text_2
+                R.string.tab_text_2,
+                R.string.tab_text_3
+
             )
     }
     override fun onCreate(savedInstanceState: Bundle?) {

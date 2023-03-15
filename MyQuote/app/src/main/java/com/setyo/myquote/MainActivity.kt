@@ -1,5 +1,6 @@
 package com.setyo.myquote
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -8,7 +9,7 @@ import android.widget.Toast
 import com.loopj.android.http.AsyncHttpClient
 import com.loopj.android.http.AsyncHttpResponseHandler
 import com.setyo.myquote.databinding.ActivityMainBinding
-import cz.msebera.android.httpclient.entity.mime.Header
+import cz.msebera.android.httpclient.Header
 import org.json.JSONObject
 
 class MainActivity : AppCompatActivity() {
@@ -25,6 +26,11 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         getRandomQuote()
+
+        binding.allQuotesButton.setOnClickListener {
+            startActivity(Intent(this@MainActivity, ListQuotesActivity::class.java
+            ))
+        }
     }
 
     private fun getRandomQuote() {
@@ -34,13 +40,13 @@ class MainActivity : AppCompatActivity() {
         client.get(url, object : AsyncHttpResponseHandler(){
             override fun onSuccess(
                 statusCode: Int,
-                headers: Array<Header>,
-                responseBody: ByteArray
+                headers: Array<out Header>?,
+                responseBody: ByteArray?
             ) {
                 // jika koneksi berhasil
                 binding.progressBar.visibility = View.INVISIBLE
 
-                val result = String(responseBody)
+                val result = String(responseBody!!)
                 Log.d(TAG, result)
                 try {
                     val responseObject = JSONObject(result)
@@ -59,9 +65,9 @@ class MainActivity : AppCompatActivity() {
 
             override fun onFailure(
                 statusCode: Int,
-                headers: Array<Header>,
-                responseBody: ByteArray,
-                error: Throwable
+                headers: Array<out Header>?,
+                responseBody: ByteArray?,
+                error: Throwable?
             ) {
                 // jika koneksi gagal
                 binding.progressBar.visibility = View.INVISIBLE
@@ -70,7 +76,7 @@ class MainActivity : AppCompatActivity() {
                     401 -> "$statusCode : Bad Request"
                     403 -> "$statusCode : Forbidden"
                     404 -> "$statusCode : Not Found"
-                    else -> "$statusCode : ${error.message}"
+                    else -> "$statusCode : ${error?.message}"
                 }
                 Toast.makeText(this@MainActivity, errorMessage, Toast.LENGTH_SHORT).show()
             }

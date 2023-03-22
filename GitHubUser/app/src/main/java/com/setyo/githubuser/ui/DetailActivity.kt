@@ -3,9 +3,13 @@ package com.setyo.githubuser.ui
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.annotation.StringRes
 import com.bumptech.glide.Glide
+import com.google.android.material.tabs.TabLayoutMediator
 import com.setyo.githubuser.R
+import com.setyo.githubuser.adapter.SelectionsPagerAdapter
 import com.setyo.githubuser.data.DetailUserResponse
 import com.setyo.githubuser.databinding.ActivityDetailBinding
 import com.setyo.githubuser.viewmodel.DetailViewModel
@@ -14,9 +18,16 @@ class DetailActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityDetailBinding
     private val detailViewModel by viewModels<DetailViewModel>()
+    private val selectionsPagerAdapter = SelectionsPagerAdapter(this)
 
     companion object {
         const val EXTRA_USER = "extra_user"
+
+        @StringRes
+        private val TAB_TITLES = intArrayOf(
+            R.string.followers,
+            R.string.following
+        )
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,6 +50,19 @@ class DetailActivity : AppCompatActivity() {
         detailViewModel.isLoading.observe(this) {
             showLoading(it)
         }
+
+        detailViewModel.textToast.observe(this) {
+            it.getContentIfNotHandled()?.let { textToast ->
+                Toast.makeText(
+                    this, textToast, Toast.LENGTH_SHORT
+                ).show()
+            }
+        }
+
+        binding.viewPager.adapter = selectionsPagerAdapter
+        TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position ->
+            tab.text = resources.getString(TAB_TITLES[position])
+        }.attach()
 
     }
 

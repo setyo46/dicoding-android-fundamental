@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.View
 import android.widget.SearchView
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.setyo.githubuser.R
@@ -34,6 +35,14 @@ class MainActivity : AppCompatActivity() {
 
         mainViewModel.isLoading.observe(this) {
             showLoading(it)
+        }
+
+        mainViewModel.textToast.observe(this) {
+            it.getContentIfNotHandled()?.let { textToast ->
+                Toast.makeText(
+                    this, textToast, Toast.LENGTH_SHORT
+                ).show()
+            }
         }
     }
 

@@ -6,16 +6,18 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.setyo.githubuser.adapter.Event
 import com.setyo.githubuser.api.ApiConfig
-import com.setyo.githubuser.data.GithubResponse
-import com.setyo.githubuser.data.GithubUser
+import com.setyo.githubuser.data.DetailUserResponse
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class MainViewModel : ViewModel() {
+class FollowViewModel: ViewModel() {
 
-    private val _listUser = MutableLiveData<List<GithubUser>>()
-    val listUser: LiveData<List<GithubUser>> = _listUser
+    private val _listUserFollower = MutableLiveData<DetailUserResponse>()
+    val listUserFollower: LiveData<DetailUserResponse> = _listUserFollower
+
+    private val _listUserFollowing = MutableLiveData<DetailUserResponse>()
+    val listUserFollowing: LiveData<DetailUserResponse> = _listUserFollowing
 
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> = _isLoading
@@ -23,36 +25,28 @@ class MainViewModel : ViewModel() {
     private val _textToast = MutableLiveData<Event<String>>()
     val textToast: LiveData<Event<String>> = _textToast
 
-    val searchQuery = MutableLiveData<String>()
-
     companion object {
-        private const val TAG = "MainViewModel"
-        private const val GITHUB_USERNAME = "arif"
+        private const val TAG = "FollowViewModel"
     }
 
-    init {
-        findGithubUser(GITHUB_USERNAME)
-    }
-
-    fun findGithubUser(userInput: String) {
+    fun followingUser(username: String?) {
         _isLoading.value = true
-        val client = ApiConfig.getApiService().getListUser(userInput)
-        client.enqueue(object : Callback<GithubResponse> {
+        val client = ApiConfig.getApiService().getDetailUser(username)
+        client.enqueue(object : Callback<DetailUserResponse> {
             override fun onResponse(
-                call: Call<GithubResponse>,
-                response: Response<GithubResponse>
+                call: Call<DetailUserResponse>,
+                response: Response<DetailUserResponse>
             ) {
                 _isLoading.value = false
                 if (response.isSuccessful) {
-                      _listUser.value = response.body()?.items
+                    _listUserFollower.value = response.body()
                 } else {
                     _textToast.value = Event("Username No Found")
                     Log.e(TAG, "onFailure: ${response.message()}")
-
                 }
             }
 
-            override fun onFailure(call: Call<GithubResponse>, t: Throwable) {
+            override fun onFailure(call: Call<DetailUserResponse>, t: Throwable) {
                 _isLoading.value = false
                 _textToast.value = Event("Not Connected to Internet")
                 Log.e(TAG, "onFailure: ${t.message}")

@@ -2,6 +2,12 @@
     <string name="app_name">GitHubUser</string>
     <string name="username">Username</string>
     <string name="ivAvatar">avatar</string>
-    <string name="search_hint">Masukkan kata</string>
+    <string name="search_hint">Cari user Github disini</string>
     <string name="search">search</string>
+    <string name="name">Nama Lengkap</string>
+    <string name="count">0</string>
+    <string name="followers">Followers</string>
+    <string name="following">Following</string>
+
+    <string name="title_detail">Detail Github User</string>
 </resources>

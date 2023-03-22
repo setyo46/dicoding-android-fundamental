@@ -1,3 +1,5 @@
+package com.setyo.githubuser.viewmodel
+
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -17,14 +19,20 @@ class MainViewModel : ViewModel() {
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> = _isLoading
 
+    val searchQuery = MutableLiveData<String>()
+
     companion object {
         private const val TAG = "MainViewModel"
-
+        private const val GITHUB_USERNAME = "arif"
     }
 
-    fun findGithubUser(query: String?) {
+    init {
+        findGithubUser(GITHUB_USERNAME)
+    }
+
+    fun findGithubUser(userInput: String) {
         _isLoading.value = true
-        val client = ApiConfig.getApiService().getListUsers(query)
+        val client = ApiConfig.getApiService().getListUser(userInput)
         client.enqueue(object : Callback<GithubResponse> {
             override fun onResponse(
                 call: Call<GithubResponse>,

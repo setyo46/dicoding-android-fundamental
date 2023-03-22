@@ -9,6 +9,7 @@ import com.setyo.githubuser.R
 import com.setyo.githubuser.data.GithubUser
 import com.setyo.githubuser.databinding.ItemRowUserBinding
 import com.setyo.githubuser.ui.DetailActivity
+import com.setyo.githubuser.ui.DetailActivity.Companion.EXTRA_USER
 
 class ListUsersAdapter(private val listUser: List<GithubUser>): RecyclerView.Adapter<ListUsersAdapter.ListViewHolder>() {
 
@@ -21,6 +22,11 @@ class ListUsersAdapter(private val listUser: List<GithubUser>): RecyclerView.Ada
                     .load(user.avatarUrl)
                     .error(R.drawable.baseline_person_24)
                     .into(ivItemAvatar)
+            }
+            itemView.setOnClickListener {
+                val intent = Intent(itemView.context, DetailActivity::class.java)
+                intent.putExtra(EXTRA_USER, user.login)
+                itemView.context.startActivity(intent)
             }
         }
     }

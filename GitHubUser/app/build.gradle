@@ -8,14 +8,14 @@ android {
     compileSdk 33
 
     defaultConfig {
-        buildConfigField("String", "GIHUB_TOKEN", '"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"')
-        buildConfigField("String", "API_URL", '"https://api.github.com/"')
-
         applicationId "com.setyo.githubuser"
         minSdk 21
         targetSdk 33
         versionCode 1
         versionName "1.0"
+
+        buildConfigField("String", "GIHUB_TOKEN", '"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"')
+        buildConfigField("String", "API_URL", '"https://api.github.com/"')
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }

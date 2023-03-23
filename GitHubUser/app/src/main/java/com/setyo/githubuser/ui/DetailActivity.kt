@@ -19,14 +19,6 @@ class DetailActivity : AppCompatActivity() {
     private val detailViewModel by viewModels<DetailViewModel>()
     private val selectionsPagerAdapter = SelectionsPagerAdapter(this)
 
-    companion object {
-        const val EXTRA_USER = "extra_user"
-        private val TAB_TITLES = intArrayOf(
-            R.string.followers,
-            R.string.following
-        )
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityDetailBinding.inflate(layoutInflater)
@@ -91,5 +83,12 @@ class DetailActivity : AppCompatActivity() {
         return super.onSupportNavigateUp()
     }
 
+    companion object {
+        const val EXTRA_USER = "extra_user"
+        private val TAB_TITLES = intArrayOf(
+            R.string.followers,
+            R.string.following
+        )
+    }
 
 }

@@ -13,7 +13,6 @@ import retrofit2.Response
 
 class DetailViewModel: ViewModel() {
 
-
     private val _listUserDetail = MutableLiveData<DetailUserResponse>()
     val listUserDetail: LiveData<DetailUserResponse> = _listUserDetail
 
@@ -51,7 +50,5 @@ class DetailViewModel: ViewModel() {
                 Log.e(TAG, "onFailure: ${t.message}")
             }
         })
-
     }
-
 }

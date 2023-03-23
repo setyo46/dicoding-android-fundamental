@@ -41,6 +41,4 @@ class ListUsersAdapter(private val listUser: List<GithubUser>): RecyclerView.Ada
     override fun onBindViewHolder(viewHolder: ListViewHolder, position: Int) {
         viewHolder.bind(listUser[position])
     }
-
-
 }

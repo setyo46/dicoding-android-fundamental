@@ -8,6 +8,9 @@
     <string name="count">0</string>
     <string name="followers">Followers</string>
     <string name="following">Following</string>
-
+    <string name="following_tabs">Following tabs</string>
+    
     <string name="title_detail">Detail Github User</string>
+
+
 </resources>

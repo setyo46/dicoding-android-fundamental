@@ -8,7 +8,7 @@ import com.setyo.githubuser.ui.FollowFragment
 
 class SelectionsPagerAdapter(activity: AppCompatActivity): FragmentStateAdapter(activity) {
 
-    val username: String = ""
+    var username: String = "test"
     override fun createFragment(position: Int): Fragment {
         val fragment = FollowFragment()
         fragment.arguments = Bundle().apply {

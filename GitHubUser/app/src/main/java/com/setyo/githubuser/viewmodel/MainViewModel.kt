@@ -48,7 +48,6 @@ class MainViewModel : ViewModel() {
                 } else {
                     _textToast.value = Event("Username No Found")
                     Log.e(TAG, "onFailure: ${response.message()}")
-
                 }
             }
 

@@ -5,13 +5,18 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.setyo.githubuser.R
+import android.widget.Toast
+import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.setyo.githubuser.adapter.ListUsersAdapter
 import com.setyo.githubuser.databinding.FragmentFollowBinding
+import com.setyo.githubuser.viewmodel.FollowViewModel
 
 class FollowFragment : Fragment() {
 
     private var _binding: FragmentFollowBinding? = null
     private val binding get() = _binding!!
+    private val followViewModel by viewModels<FollowViewModel>()
 
     private var position: Int = 0
     private var username: String? = "test"
@@ -30,10 +35,50 @@ class FollowFragment : Fragment() {
             position = it.getInt(ARG_POSITION)
             username = it.getString(ARG_USERNAME)
         }
+
+
+        binding.rvFollowerFollowing.adapter = ListUsersAdapter(emptyList())
+        showRecyclerView()
+
+        followViewModel.listUserFollower.observe(viewLifecycleOwner) { listFollower ->
+            binding.rvFollowerFollowing.adapter = ListUsersAdapter(listFollower)
+        }
+
+        followViewModel.listUserFollowing.observe(viewLifecycleOwner) {listFollowing ->
+            binding.rvFollowerFollowing.adapter =ListUsersAdapter(listFollowing)
+        }
+
+        followViewModel.isLoading.observe(viewLifecycleOwner) {
+            showLoading(it)
+        }
+
+        followViewModel.textToast.observe(viewLifecycleOwner) {
+            it.getContentIfNotHandled()?.let { textToast ->
+                Toast.makeText(
+                    requireContext(), textToast, Toast.LENGTH_SHORT
+                ).show()
+            }
+        }
+
         if (position == 1) {
-            binding.testTeks.text = "Get Follower $username"
+           followViewModel.followerUser(username)
         } else {
-            binding.testTeks.text = "Get Following $username"
+            followViewModel.followingUser(username)
+        }
+    }
+
+    private fun showRecyclerView() {
+        binding.rvFollowerFollowing.apply {
+            layoutManager = LinearLayoutManager(requireContext())
+            setHasFixedSize(true)
+        }
+    }
+
+    private fun showLoading(isLoading: Boolean) {
+        if (isLoading) {
+            binding.progressBar.visibility = View.VISIBLE
+        } else {
+            binding.progressBar.visibility = View.GONE
         }
     }
 

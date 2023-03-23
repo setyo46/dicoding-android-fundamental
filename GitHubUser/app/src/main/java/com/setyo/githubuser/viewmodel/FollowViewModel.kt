@@ -6,18 +6,18 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.setyo.githubuser.adapter.Event
 import com.setyo.githubuser.api.ApiConfig
-import com.setyo.githubuser.data.DetailUserResponse
+import com.setyo.githubuser.data.GithubUser
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 class FollowViewModel: ViewModel() {
 
-    private val _listUserFollower = MutableLiveData<DetailUserResponse>()
-    val listUserFollower: LiveData<DetailUserResponse> = _listUserFollower
+    private val _listUserFollower = MutableLiveData<List<GithubUser>>()
+    val listUserFollower: LiveData<List<GithubUser>> = _listUserFollower
 
-    private val _listUserFollowing = MutableLiveData<DetailUserResponse>()
-    val listUserFollowing: LiveData<DetailUserResponse> = _listUserFollowing
+    private val _listUserFollowing = MutableLiveData<List<GithubUser>>()
+    val listUserFollowing: LiveData<List<GithubUser>> = _listUserFollowing
 
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> = _isLoading
@@ -29,13 +29,13 @@ class FollowViewModel: ViewModel() {
         private const val TAG = "FollowViewModel"
     }
 
-    fun followingUser(username: String?) {
+    fun followerUser(username: String?) {
         _isLoading.value = true
-        val client = ApiConfig.getApiService().getDetailUser(username)
-        client.enqueue(object : Callback<DetailUserResponse> {
+        val client = ApiConfig.getApiService().getFollowers(username)
+        client.enqueue(object : Callback<List<GithubUser>>{
             override fun onResponse(
-                call: Call<DetailUserResponse>,
-                response: Response<DetailUserResponse>
+                call: Call<List<GithubUser>>,
+                response: Response<List<GithubUser>>
             ) {
                 _isLoading.value = false
                 if (response.isSuccessful) {
@@ -46,7 +46,32 @@ class FollowViewModel: ViewModel() {
                 }
             }
 
-            override fun onFailure(call: Call<DetailUserResponse>, t: Throwable) {
+            override fun onFailure(call: Call<List<GithubUser>>, t: Throwable) {
+                _isLoading.value = false
+                _textToast.value = Event("Not Connected to Internet")
+                Log.e(TAG, "onFailure: ${t.message}")
+            }
+        })
+    }
+
+    fun followingUser(username: String?) {
+        _isLoading.value = true
+        val client = ApiConfig.getApiService().getFollowing(username)
+        client.enqueue(object : Callback<List<GithubUser>>{
+            override fun onResponse(
+                call: Call<List<GithubUser>>,
+                response: Response<List<GithubUser>>
+            ) {
+                _isLoading.value = false
+                if (response.isSuccessful) {
+                    _listUserFollowing.value = response.body()
+                } else {
+                    _textToast.value = Event("Username No Found")
+                    Log.e(TAG, "onFailure: ${response.message()}")
+                }
+            }
+
+            override fun onFailure(call: Call<List<GithubUser>>, t: Throwable) {
                 _isLoading.value = false
                 _textToast.value = Event("Not Connected to Internet")
                 Log.e(TAG, "onFailure: ${t.message}")

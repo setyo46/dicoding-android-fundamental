@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
-import androidx.annotation.StringRes
 import com.bumptech.glide.Glide
 import com.google.android.material.tabs.TabLayoutMediator
 import com.setyo.githubuser.R
@@ -22,8 +21,6 @@ class DetailActivity : AppCompatActivity() {
 
     companion object {
         const val EXTRA_USER = "extra_user"
-
-        @StringRes
         private val TAB_TITLES = intArrayOf(
             R.string.followers,
             R.string.following
@@ -42,6 +39,9 @@ class DetailActivity : AppCompatActivity() {
 
         val username = intent.getStringExtra(EXTRA_USER)
         detailViewModel.detailGithubUser(username)
+        if (username != null) {
+            selectionsPagerAdapter.username = username
+        }
 
         detailViewModel.listUserDetail.observe(this) { detailUser ->
             setUserData(detailUser)
@@ -63,7 +63,6 @@ class DetailActivity : AppCompatActivity() {
         TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position ->
             tab.text = resources.getString(TAB_TITLES[position])
         }.attach()
-
     }
 
     private fun setUserData(user: DetailUserResponse) {
@@ -86,4 +85,11 @@ class DetailActivity : AppCompatActivity() {
             binding.progressBar.visibility = View.GONE
         }
     }
+
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressedDispatcher.onBackPressed()
+        return super.onSupportNavigateUp()
+    }
+
+
 }

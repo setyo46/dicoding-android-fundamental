@@ -2,12 +2,13 @@ package com.setyo.githubuser.ui
 
 import android.app.SearchManager
 import android.content.Context
+import android.content.Intent
 import com.setyo.githubuser.viewmodel.MainViewModel
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.View
-import android.widget.SearchView
+import androidx.appcompat.widget.SearchView
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -20,6 +21,14 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private val mainViewModel by viewModels<MainViewModel>()
+
+    companion object {
+        fun start(context: Context) {
+            Intent(context, MainActivity::class.java).apply {
+                context.startActivity(this)
+            }
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -91,5 +100,4 @@ class MainActivity : AppCompatActivity() {
         })
         return true
     }
-
 }

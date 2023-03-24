@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">MySharedPreferences</string>
+    <string name="name">Name</string>
+    <string name="dummyName">Setyo Adi Sasono</string>
+    <string name="email">Email</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="dummyEmail">setyoadisason@gmail.com</string>
+    <string name="phoneNumber">No HandPhone</string>
+    <string name="dummyPhoneNumber">082227783774</string>
+    <string name="age">Age</string>
+    <string name="dummyAge">24</string>
+    <string name="dummyIsLove">IsLoveChelsea</string>
+    <string name="loveChelsea">Love Chelsea</string>
+    <string name="save">Save</string>
+</resources>

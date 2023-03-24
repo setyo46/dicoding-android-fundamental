@@ -25,15 +25,6 @@ class MainViewModel : ViewModel() {
 
     val searchQuery = MutableLiveData<String>()
 
-    companion object {
-        private const val TAG = "MainViewModel"
-        private const val GITHUB_USERNAME = "arif"
-    }
-
-    init {
-        findGithubUser(GITHUB_USERNAME)
-    }
-
     fun findGithubUser(userInput: String) {
         _isLoading.value = true
         val client = ApiConfig.getApiService().getListUser(userInput)
@@ -57,5 +48,14 @@ class MainViewModel : ViewModel() {
                 Log.e(TAG, "onFailure: ${t.message}")
             }
         })
+    }
+
+    companion object {
+        private const val TAG = "MainViewModel"
+        private const val GITHUB_USERNAME = "arif"
+    }
+
+    init {
+        findGithubUser(GITHUB_USERNAME)
     }
 }

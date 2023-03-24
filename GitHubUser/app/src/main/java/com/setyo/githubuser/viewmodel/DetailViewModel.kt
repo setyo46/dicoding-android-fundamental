@@ -22,11 +22,6 @@ class DetailViewModel: ViewModel() {
     private val _textToast = MutableLiveData<Event<String>>()
     val textToast: LiveData<Event<String>> = _textToast
 
-    companion object {
-        private const val TAG = "DetailViewModel"
-    }
-
-
     fun detailGithubUser(username: String?) {
         _isLoading.value = true
         val client = ApiConfig.getApiService().getDetailUser(username)
@@ -51,4 +46,9 @@ class DetailViewModel: ViewModel() {
             }
         })
     }
+
+    companion object {
+        private const val TAG = "DetailViewModel"
+    }
 }
+

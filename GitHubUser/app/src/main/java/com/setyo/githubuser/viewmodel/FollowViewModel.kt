@@ -25,10 +25,6 @@ class FollowViewModel: ViewModel() {
     private val _textToast = MutableLiveData<Event<String>>()
     val textToast: LiveData<Event<String>> = _textToast
 
-    companion object {
-        private const val TAG = "FollowViewModel"
-    }
-
     fun followerUser(username: String?) {
         _isLoading.value = true
         val client = ApiConfig.getApiService().getFollowers(username)
@@ -77,5 +73,9 @@ class FollowViewModel: ViewModel() {
                 Log.e(TAG, "onFailure: ${t.message}")
             }
         })
+    }
+
+    companion object {
+        private const val TAG = "FollowViewModel"
     }
 }

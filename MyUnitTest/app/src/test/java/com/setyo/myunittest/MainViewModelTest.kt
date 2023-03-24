@@ -74,8 +74,8 @@ class MainViewModelTest {
     fun testMockCircumference() {
         `when`(mainViewModel.getCircumference()).thenReturn(dummyCircumference)
         val circumference = mainViewModel.getCircumference()
-        verify(cuboidModel).getVolume()
-        assertEquals(dummyVolume, circumference, 0.0001)
+        verify(cuboidModel).getCircumference()
+        assertEquals(dummyCircumference, circumference, 0.0001)
     }
 
 

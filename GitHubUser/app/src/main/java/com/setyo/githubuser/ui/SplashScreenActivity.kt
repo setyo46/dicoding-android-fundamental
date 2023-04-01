@@ -17,13 +17,13 @@ class SplashScreenActivity : AppCompatActivity() {
         setContentView(R.layout.activity_splash_screen)
 
         GlobalScope.launch {
-            delay(NUMBER_SPLASH)
+            delay(VALUE_SPLASH)
             MainActivity.start(this@SplashScreenActivity)
             finish()
         }
     }
 
     companion object {
-        const val NUMBER_SPLASH = 2000L
+        const val VALUE_SPLASH = 2000L
     }
 }

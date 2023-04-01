@@ -37,8 +37,8 @@ class NoteAddUpdateActivity : AppCompatActivity() {
             note = Note()
         }
 
-        var actionBarTitle: String
-        var btnTitle: String
+        val actionBarTitle: String
+        val btnTitle: String
 
         if (isEdit) {
             actionBarTitle = getString(R.string.change)
@@ -48,6 +48,7 @@ class NoteAddUpdateActivity : AppCompatActivity() {
                     binding?.edtTitle?.setText(note.title)
                     binding?.edtDesc?.setText(note.description)
                 }
+            }
             } else {
                 actionBarTitle = getString(R.string.add)
                 btnTitle = getString(R.string.save)
@@ -57,7 +58,6 @@ class NoteAddUpdateActivity : AppCompatActivity() {
             supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
             binding?.btnSubmit?.text = btnTitle
-
             binding?.btnSubmit?.setOnClickListener {
                 val title = binding?.edtTitle?.text.toString().trim()
                 val description = binding?.edtDesc?.text.toString().trim()
@@ -88,73 +88,74 @@ class NoteAddUpdateActivity : AppCompatActivity() {
                 }
             }
         }
-    }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        if (isEdit) {
-            menuInflater.inflate(R.menu.menu_form, menu)
+        private fun showToast(message: String) {
+            Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
         }
-        return super.onCreateOptionsMenu(menu)
-    }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when(item.itemId) {
-            R.id.action_delete -> showAlertDialog(ALERT_DIALOG_DELETE)
-            android.R.id.home -> showAlertDialog(ALERT_DIALOG_CLOSE)
-        }
-        return super.onOptionsItemSelected(item)
-    }
-
-    override fun onBackPressed() {
-        showAlertDialog(ALERT_DIALOG_CLOSE)
-    }
-
-    private fun showAlertDialog(type: Int) {
-        val isDialogClose = type == ALERT_DIALOG_CLOSE
-        val dialogTitle: String
-        val dialogMessage: String
-        if (isDialogClose) {
-            dialogTitle = getString(R.string.cancel)
-            dialogMessage = getString(R.string.message_cancel)
-        } else {
-            dialogMessage = getString(R.string.message_delete)
-            dialogTitle = getString(R.string.delete)
-        }
-        val alertDialogBuilder = AlertDialog.Builder(this)
-        with(alertDialogBuilder) {
-            setTitle(dialogTitle)
-            setMessage(dialogMessage)
-            setCancelable(false)
-            setPositiveButton(getString(R.string.yes)) {_, _->
-                if (!isDialogClose) {
-                    noteAddUpdateViewModel.delete(note as Note)
-                    showToast(getString(R.string.deleted))
-                }
-                finish()
+        override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+            if (isEdit) {
+                menuInflater.inflate(R.menu.menu_form, menu)
             }
-            setNegativeButton(getString(R.string.no)) { dialog, _-> dialog.cancel() }
+            return super.onCreateOptionsMenu(menu)
         }
-        val alertDialog = alertDialogBuilder.create()
-        alertDialog.show()
-    }
 
-    private fun showToast(message: String) {
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
-    }
+        override fun onOptionsItemSelected(item: MenuItem): Boolean {
+            when(item.itemId) {
+                R.id.action_delete -> showAlertDialog(ALERT_DIALOG_DELETE)
+                android.R.id.home -> showAlertDialog(ALERT_DIALOG_CLOSE)
+            }
+            return super.onOptionsItemSelected(item)
+        }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        _activityNoteAddUpdateBinding = null
-    }
+        override fun onBackPressed() {
+            showAlertDialog(ALERT_DIALOG_CLOSE)
+        }
 
-    private fun obtainViewModel(activity: AppCompatActivity): NoteAddUpdateViewModel {
-        val factory = ViewModelFactory.getInstance(activity.application)
-        return ViewModelProvider(activity, factory)[NoteAddUpdateViewModel::class.java]
-    }
+        private fun showAlertDialog(type: Int) {
+            val isDialogClose = type == ALERT_DIALOG_CLOSE
+            val dialogTitle: String
+            val dialogMessage: String
+            if (isDialogClose) {
+                dialogTitle = getString(R.string.cancel)
+                dialogMessage = getString(R.string.message_cancel)
+            } else {
+                dialogMessage = getString(R.string.message_delete)
+                dialogTitle = getString(R.string.delete)
+            }
+            val alertDialogBuilder = AlertDialog.Builder(this)
+            with(alertDialogBuilder) {
+                setTitle(dialogTitle)
+                setMessage(dialogMessage)
+                setCancelable(false)
+                setPositiveButton(getString(R.string.yes)) {_, _->
+                    if (!isDialogClose) {
+                        noteAddUpdateViewModel.delete(note as Note)
+                        showToast(getString(R.string.deleted))
+                    }
+                    finish()
+                }
+                setNegativeButton(getString(R.string.no)) { dialog, _-> dialog.cancel() }
+            }
+            val alertDialog = alertDialogBuilder.create()
+            alertDialog.show()
+        }
 
-    companion object {
-        const val EXTRA_NOTE = "extra_note"
-        const val ALERT_DIALOG_CLOSE = 10
-        const val ALERT_DIALOG_DELETE = 20
-    }
+
+
+        override fun onDestroy() {
+            super.onDestroy()
+            _activityNoteAddUpdateBinding = null
+        }
+
+        private fun obtainViewModel(activity: AppCompatActivity): NoteAddUpdateViewModel {
+            val factory = ViewModelFactory.getInstance(activity.application)
+            return ViewModelProvider(activity, factory)[NoteAddUpdateViewModel::class.java]
+        }
+
+        companion object {
+            const val EXTRA_NOTE = "extra_note"
+            const val ALERT_DIALOG_CLOSE = 10
+            const val ALERT_DIALOG_DELETE = 20
+        }
 }

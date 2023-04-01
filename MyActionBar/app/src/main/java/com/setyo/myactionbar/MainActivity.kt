@@ -64,21 +64,21 @@ class MainActivity : AppCompatActivity() {
         return true
     }
 
-//    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-//        return when(item.itemId) {
-//            R.id.menu1 -> {
-//                supportFragmentManager.beginTransaction()
-//                    .replace(R.id.containerFragment, MenuFragment())
-//                    .addToBackStack(null)
-//                    .commit()
-//                true
-//            }
-//            R.id.menu2 -> {
-//                val i = Intent(this, MenuActivity::class.java)
-//                startActivity(i)
-//                true
-//            }
-//            else -> true
-//        }
-//    }
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when(item.itemId) {
+            R.id.menu1 -> {
+                supportFragmentManager.beginTransaction()
+                    .replace(R.id.containerFragment, MenuFragment())
+                    .addToBackStack(null)
+                    .commit()
+                true
+            }
+            R.id.menu2 -> {
+                val i = Intent(this, MenuActivity::class.java)
+                startActivity(i)
+                true
+            }
+            else -> true
+        }
+    }
 }

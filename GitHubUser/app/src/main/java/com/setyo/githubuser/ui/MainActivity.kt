@@ -22,14 +22,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private val mainViewModel by viewModels<MainViewModel>()
 
-    companion object {
-        fun start(context: Context) {
-            Intent(context, MainActivity::class.java).apply {
-                context.startActivity(this)
-            }
-        }
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -99,5 +91,13 @@ class MainActivity : AppCompatActivity() {
             }
         })
         return true
+    }
+
+    companion object {
+        fun start(context: Context) {
+            Intent(context, MainActivity::class.java).apply {
+                context.startActivity(this)
+            }
+        }
     }
 }

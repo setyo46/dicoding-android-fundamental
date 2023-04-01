@@ -11,6 +11,8 @@
     <string name="following_tabs">Following tabs</string>
     
     <string name="title_detail">Detail Github User</string>
+    <string name="favorite">favorite</string>
+    <string name="setting">Setting</string>
 
 
 </resources>

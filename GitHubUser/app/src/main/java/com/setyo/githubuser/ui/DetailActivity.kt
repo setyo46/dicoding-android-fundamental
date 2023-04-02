@@ -11,6 +11,7 @@ import com.setyo.githubuser.R
 import com.setyo.githubuser.adapter.SelectionsPagerAdapter
 import com.setyo.githubuser.data.DetailUserResponse
 import com.setyo.githubuser.databinding.ActivityDetailBinding
+import com.setyo.githubuser.ui.insert.FavoriteUserAddUpdateViewModel
 import com.setyo.githubuser.viewmodel.DetailViewModel
 
 class DetailActivity : AppCompatActivity() {

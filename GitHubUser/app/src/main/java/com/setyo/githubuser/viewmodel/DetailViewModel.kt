@@ -1,5 +1,6 @@
 package com.setyo.githubuser.viewmodel
 
+import android.app.Application
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -7,6 +8,8 @@ import androidx.lifecycle.ViewModel
 import com.setyo.githubuser.adapter.Event
 import com.setyo.githubuser.api.ApiConfig
 import com.setyo.githubuser.data.DetailUserResponse
+import com.setyo.githubuser.database.FavoriteUser
+import com.setyo.githubuser.repository.FavoriteUserRepository
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -21,6 +24,9 @@ class DetailViewModel: ViewModel() {
 
     private val _textToast = MutableLiveData<Event<String>>()
     val textToast: LiveData<Event<String>> = _textToast
+
+//    private val mFavoriteUserRepository: FavoriteUserRepository = FavoriteUserRepository(application)
+//    fun getAllFavoriteUser(): LiveData<List<FavoriteUser>> = mFavoriteUserRepository.getAllFavoriteUser()
 
     fun detailGithubUser(username: String?) {
         _isLoading.value = true

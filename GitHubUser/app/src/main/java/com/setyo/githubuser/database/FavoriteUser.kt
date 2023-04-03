@@ -10,9 +10,10 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 data class FavoriteUser(
     @PrimaryKey(autoGenerate = false)
+
     @ColumnInfo(name = "username")
     var username : String = "",
 
-    @ColumnInfo(name = "avatarUrl")
+    @ColumnInfo(name = "avatar_url")
     var avatarUrl : String? = null
 ): Parcelable

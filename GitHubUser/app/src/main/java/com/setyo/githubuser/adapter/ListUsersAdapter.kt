@@ -3,15 +3,28 @@ package com.setyo.githubuser.adapter
 import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.setyo.githubuser.R
 import com.setyo.githubuser.data.GithubUser
+import com.setyo.githubuser.database.FavoriteUser
 import com.setyo.githubuser.databinding.ItemRowUserBinding
+import com.setyo.githubuser.helper.FavoriteUserDiffCallback
 import com.setyo.githubuser.ui.DetailActivity
 import com.setyo.githubuser.ui.DetailActivity.Companion.EXTRA_USER
 
 class ListUsersAdapter(private val listUser: List<GithubUser>): RecyclerView.Adapter<ListUsersAdapter.ListViewHolder>() {
+
+    private val listFavoriteUser = ArrayList<FavoriteUser>()
+
+    fun setListNotes(listNotes: List<FavoriteUser>) {
+        val diffCallback = FavoriteUserDiffCallback(this.listFavoriteUser, listFavoriteUser)
+        val diffResult = DiffUtil.calculateDiff(diffCallback)
+        this.listFavoriteUser.clear()
+        this.listFavoriteUser.addAll(listNotes)
+        diffResult.dispatchUpdatesTo(this)
+    }
 
     inner class ListViewHolder(private val binding: ItemRowUserBinding): RecyclerView.ViewHolder(binding.root) {
 

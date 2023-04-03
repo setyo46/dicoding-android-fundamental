@@ -1,4 +1,4 @@
-package com.setyo.githubuser.ui.insert
+package com.setyo.githubuser.viewmodel
 
 import android.app.Application
 import androidx.lifecycle.ViewModel

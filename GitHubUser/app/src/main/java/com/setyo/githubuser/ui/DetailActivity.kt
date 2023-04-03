@@ -5,25 +5,30 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
 import com.google.android.material.tabs.TabLayoutMediator
 import com.setyo.githubuser.R
 import com.setyo.githubuser.adapter.SelectionsPagerAdapter
 import com.setyo.githubuser.data.DetailUserResponse
+import com.setyo.githubuser.database.FavoriteUser
 import com.setyo.githubuser.databinding.ActivityDetailBinding
-import com.setyo.githubuser.ui.insert.FavoriteUserAddUpdateViewModel
+import com.setyo.githubuser.helper.ViewModelFactory
 import com.setyo.githubuser.viewmodel.DetailViewModel
 
 class DetailActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityDetailBinding
-    private val detailViewModel by viewModels<DetailViewModel>()
+    private val detailViewModel by viewModels<DetailViewModel> {
+        ViewModelFactory.getInstance(application)
+    }
     private val selectionsPagerAdapter = SelectionsPagerAdapter(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
 
         supportActionBar?.apply {
             title = getString(R.string.title_detail)
@@ -52,11 +57,43 @@ class DetailActivity : AppCompatActivity() {
             }
         }
 
+
+        binding.fabAdd.setOnClickListener {
+            detailViewModel.getAllFavoriteUser().observe(this) {
+                val usernameFavorite = detailViewModel.listUserDetail.value?.login
+                val avatarUrl = detailViewModel.listUserDetail.value?.avatarUrl
+
+                if (!usernameFavorite.isNullOrEmpty() && !avatarUrl.isNullOrEmpty()) {
+                    val favoriteUser = FavoriteUser(
+                        username = usernameFavorite,
+                        avatarUrl = avatarUrl
+                    )
+                    detailViewModel.insert(favoriteUser)
+                    Toast.makeText(this, "Added to favorite", Toast.LENGTH_SHORT).show()
+                } else {
+                    Toast.makeText(this, "Failed to add to favorite", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+
+        if (username != null) {
+            detailViewModel.getFavoriteUserByUsername(username).observe(this) {
+                if (it != null) {
+                    binding.fabAdd.setImageResource(R.drawable.baseline_favorite_24)
+                } else {
+                    binding.fabAdd.setImageResource(R.drawable.baseline_favorite_border_24)
+                }
+            }
+        }
+
+
+
         binding.viewPager.adapter = selectionsPagerAdapter
         TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position ->
             tab.text = resources.getString(TAB_TITLES[position])
         }.attach()
     }
+
 
     private fun setUserData(user: DetailUserResponse) {
         binding.apply {

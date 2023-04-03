@@ -12,5 +12,11 @@ interface FavoriteUserDao {
     fun insert(favoriteUser: FavoriteUser)
 
     @Query("SELECT * FROM  favoriteUser ORDER BY username ASC")
-    fun getAllNotes(): LiveData<List<FavoriteUser>>
+    fun getAllFavoriteUser(): LiveData<List<FavoriteUser>>
+
+    @Query("SELECT * FROM FavoriteUser WHERE username = :username")
+    fun getFavoriteUserByUsername(username: String): LiveData<FavoriteUser>
+
+
+
 }

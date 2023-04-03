@@ -14,7 +14,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class DetailViewModel: ViewModel() {
+class DetailViewModel(application: Application): ViewModel() {
 
     private val _listUserDetail = MutableLiveData<DetailUserResponse>()
     val listUserDetail: LiveData<DetailUserResponse> = _listUserDetail
@@ -25,8 +25,10 @@ class DetailViewModel: ViewModel() {
     private val _textToast = MutableLiveData<Event<String>>()
     val textToast: LiveData<Event<String>> = _textToast
 
-//    private val mFavoriteUserRepository: FavoriteUserRepository = FavoriteUserRepository(application)
-//    fun getAllFavoriteUser(): LiveData<List<FavoriteUser>> = mFavoriteUserRepository.getAllFavoriteUser()
+    private val mFavoriteUserRepository: FavoriteUserRepository = FavoriteUserRepository(application)
+
+    fun getAllFavoriteUser(): LiveData<List<FavoriteUser>> = mFavoriteUserRepository.getAllFavoriteUser()
+    fun getFavoriteUserByUsername(username: String): LiveData<FavoriteUser> = mFavoriteUserRepository.getFavoriteUserByUsername(username)
 
     fun detailGithubUser(username: String?) {
         _isLoading.value = true
@@ -51,6 +53,11 @@ class DetailViewModel: ViewModel() {
                 Log.e(TAG, "onFailure: ${t.message}")
             }
         })
+    }
+
+
+    fun insert(favoriteUser: FavoriteUser) {
+        mFavoriteUserRepository.insert(favoriteUser)
     }
 
     companion object {

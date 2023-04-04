@@ -7,6 +7,7 @@ import com.setyo.githubuser.viewmodel.MainViewModel
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.widget.SearchView
 import android.widget.Toast
@@ -15,7 +16,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.setyo.githubuser.R
 import com.setyo.githubuser.adapter.ListUsersAdapter
 import com.setyo.githubuser.databinding.ActivityMainBinding
-
 
 class MainActivity : AppCompatActivity() {
 
@@ -91,6 +91,22 @@ class MainActivity : AppCompatActivity() {
             }
         })
         return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when(item.itemId) {
+            R.id.favorite -> {
+                val intent = Intent(this, FavoriteUserActivity::class.java)
+                startActivity(intent)
+                true
+            }
+            R.id.setting -> {
+                val intent = Intent(this, SettingActivity::class.java)
+                startActivity(intent)
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 
     companion object {

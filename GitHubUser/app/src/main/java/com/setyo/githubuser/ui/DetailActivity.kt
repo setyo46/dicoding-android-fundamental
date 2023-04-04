@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
-import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
 import com.google.android.material.tabs.TabLayoutMediator
 import com.setyo.githubuser.R
@@ -28,7 +27,6 @@ class DetailActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
 
         supportActionBar?.apply {
             title = getString(R.string.title_detail)
@@ -57,36 +55,33 @@ class DetailActivity : AppCompatActivity() {
             }
         }
 
-
-        binding.fabAdd.setOnClickListener {
-            detailViewModel.getAllFavoriteUser().observe(this) {
-                val usernameFavorite = detailViewModel.listUserDetail.value?.login
-                val avatarUrl = detailViewModel.listUserDetail.value?.avatarUrl
-
-                if (!usernameFavorite.isNullOrEmpty() && !avatarUrl.isNullOrEmpty()) {
-                    val favoriteUser = FavoriteUser(
-                        username = usernameFavorite,
-                        avatarUrl = avatarUrl
-                    )
-                    detailViewModel.insert(favoriteUser)
-                    Toast.makeText(this, "Added to favorite", Toast.LENGTH_SHORT).show()
-                } else {
-                    Toast.makeText(this, "Failed to add to favorite", Toast.LENGTH_SHORT).show()
-                }
-            }
-        }
-
         if (username != null) {
-            detailViewModel.getFavoriteUserByUsername(username).observe(this) {
-                if (it != null) {
+            detailViewModel.getFavoriteUserByUsername(username).observe(this) { favoriteUsername ->
+                if (favoriteUsername != null) {
                     binding.fabAdd.setImageResource(R.drawable.baseline_favorite_24)
+                    binding.fabAdd.setOnClickListener {
+                        detailViewModel.delete(favoriteUsername)
+                        Toast.makeText(this, "Removed from favorite", Toast.LENGTH_SHORT).show()
+                    }
                 } else {
                     binding.fabAdd.setImageResource(R.drawable.baseline_favorite_border_24)
+                    binding.fabAdd.setOnClickListener {
+                        val usernameFavorite = detailViewModel.listUserDetail.value?.login
+                        val avatarUrl = detailViewModel.listUserDetail.value?.avatarUrl
+                        if (!usernameFavorite.isNullOrEmpty() && !avatarUrl.isNullOrEmpty()) {
+                            val favoriteUser = FavoriteUser(
+                                username = usernameFavorite,
+                                avatarUrl = avatarUrl
+                            )
+                            detailViewModel.insert(favoriteUser)
+                            Toast.makeText(this, "Added to favorite", Toast.LENGTH_SHORT).show()
+                        } else {
+                            Toast.makeText(this, "Failed to add to favorite", Toast.LENGTH_SHORT).show()
+                        }
+                    }
                 }
             }
         }
-
-
 
         binding.viewPager.adapter = selectionsPagerAdapter
         TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position ->

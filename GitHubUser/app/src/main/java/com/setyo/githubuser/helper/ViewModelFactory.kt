@@ -4,7 +4,7 @@ import android.app.Application
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.setyo.githubuser.viewmodel.DetailViewModel
-import com.setyo.githubuser.viewmodel.FavoriteUserAddUpdateViewModel
+import com.setyo.githubuser.viewmodel.FavoriteUserViewModel
 
 class ViewModelFactory private constructor(private val mApplication: Application): ViewModelProvider.NewInstanceFactory() {
 
@@ -27,8 +27,8 @@ class ViewModelFactory private constructor(private val mApplication: Application
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(DetailViewModel::class.java)) {
             return DetailViewModel(mApplication) as T
-        } else if (modelClass.isAssignableFrom(FavoriteUserAddUpdateViewModel::class.java)) {
-            return FavoriteUserAddUpdateViewModel(mApplication) as T
+        } else if (modelClass.isAssignableFrom(FavoriteUserViewModel::class.java)) {
+            return FavoriteUserViewModel(mApplication) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")
     }

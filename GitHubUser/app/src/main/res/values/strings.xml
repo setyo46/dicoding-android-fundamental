@@ -11,8 +11,12 @@
     <string name="following_tabs">Following tabs</string>
 
     <string name="title_detail">Detail Github User</string>
-    <string name="favorite">favorite</string>
+    <string name="title_setting">Setting Dark Mode</string>
+    <string name="title_favorite">Favorite Github User</string>
+
+    <string name="favorite">Favorite</string>
     <string name="setting">Setting</string>
+    <string name="dark_mode">Dark Mode</string>
 
 
 </resources>

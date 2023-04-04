@@ -27,7 +27,6 @@ class DetailViewModel(application: Application): ViewModel() {
 
     private val mFavoriteUserRepository: FavoriteUserRepository = FavoriteUserRepository(application)
 
-    fun getAllFavoriteUser(): LiveData<List<FavoriteUser>> = mFavoriteUserRepository.getAllFavoriteUser()
     fun getFavoriteUserByUsername(username: String): LiveData<FavoriteUser> = mFavoriteUserRepository.getFavoriteUserByUsername(username)
 
     fun detailGithubUser(username: String?) {
@@ -58,6 +57,10 @@ class DetailViewModel(application: Application): ViewModel() {
 
     fun insert(favoriteUser: FavoriteUser) {
         mFavoriteUserRepository.insert(favoriteUser)
+    }
+
+    fun delete(favoriteUser: FavoriteUser) {
+        mFavoriteUserRepository.delete(favoriteUser)
     }
 
     companion object {

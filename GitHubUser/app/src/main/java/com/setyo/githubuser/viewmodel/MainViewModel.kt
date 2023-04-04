@@ -1,9 +1,11 @@
 package com.setyo.githubuser.viewmodel
 
+import android.content.Context
 import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.preferencesDataStore
+import androidx.lifecycle.*
 import com.setyo.githubuser.adapter.Event
 import com.setyo.githubuser.api.ApiConfig
 import com.setyo.githubuser.data.GithubResponse
@@ -11,6 +13,7 @@ import com.setyo.githubuser.data.GithubUser
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+
 
 class MainViewModel : ViewModel() {
 

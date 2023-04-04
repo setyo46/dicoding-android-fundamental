@@ -14,7 +14,10 @@
         android:theme="@style/Theme.GitHubUser"
         tools:targetApi="31">
         <activity
-            android:name=".FavoriteUserAddUpdateActivity"
+            android:name=".ui.SettingActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.FavoriteUserActivity"
             android:exported="false" />
         <activity
             android:name=".ui.DetailActivity"

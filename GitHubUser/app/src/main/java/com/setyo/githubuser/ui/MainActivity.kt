@@ -12,10 +12,20 @@ import android.view.View
 import androidx.appcompat.widget.SearchView
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatDelegate
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.preferencesDataStore
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.setyo.githubuser.R
 import com.setyo.githubuser.adapter.ListUsersAdapter
 import com.setyo.githubuser.databinding.ActivityMainBinding
+import com.setyo.githubuser.helper.SettingModelFactory
+import com.setyo.githubuser.helper.SettingPreferences
+import com.setyo.githubuser.viewmodel.SettingViewModel
+
+private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
 
 class MainActivity : AppCompatActivity() {
 
@@ -29,6 +39,8 @@ class MainActivity : AppCompatActivity() {
 
         binding.rvGithubUser.adapter = ListUsersAdapter(emptyList())
         showRecyclerView()
+
+        setTheme()
 
         mainViewModel.listUser.observe(this) {
             binding.rvGithubUser.adapter = ListUsersAdapter(it)
@@ -106,6 +118,18 @@ class MainActivity : AppCompatActivity() {
                 true
             }
             else -> super.onOptionsItemSelected(item)
+        }
+    }
+
+    fun setTheme() {
+        val pref = SettingPreferences.getInstance(dataStore)
+        val settingViewModel = ViewModelProvider(this, SettingModelFactory(pref))[SettingViewModel::class.java]
+        settingViewModel.getThemeSetting().observe(this) { isDarkModeActive: Boolean ->
+            if (isDarkModeActive) {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+            } else {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+            }
         }
     }
 
